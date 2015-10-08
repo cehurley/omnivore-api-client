@@ -27,7 +27,10 @@ class RequestSender(object):
         '''
         if action == 'get':
             response = requests.get(url, headers=Headers.prep_headers(self.api_key))
-
+        elif action == 'post':
+            response = requests.post(url,
+                                     payload,
+                                     headers=Headers.prep_headers(self.api_key))
         data = json.loads(response.text)
         #removing HAL data for now
         if operation == 'list':
@@ -37,10 +40,12 @@ class RequestSender(object):
                     del r['_embedded']
                 if '_links' in r:
                     del r['_links']
-        elif operation == 'getOne':
+        elif operation in ('getOne', 'create'):
             if '_embedded' in data:
                 del data['_embedded']
             if '_links' in data:
                 del data['_links']
+
+
 
         return [response.status_code, data]

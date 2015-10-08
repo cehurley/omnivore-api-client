@@ -4,31 +4,46 @@ import json
 
 class RequestContainer(object):
     ''' holds information from which to build a request '''
-    def __init__(self):
-        self.resource = None
-        self.operation = None
-        self.args = {}
-        self.action = None
-        self.url = None
+    @property
+    def resource(self):
+        return self.__resource
 
-    def set_resource(self, resource):
-        self.resource = resource
+    @resource.setter
+    def resource(self, resource):
+        self.__resource = resource
 
-    def set_operation(self, op, args):
-        self.operation = op
-        self.args = args
+    @property
+    def operation(self):
+        return self.__operation
 
-    def set_action(self, action):
-        self.action = action
+    @operation.setter
+    def operation(self, op):
+        self.__operation = op
 
-    def set_url(self, url):
-        self.url = url
+    @property
+    def args(self):
+        return self.__args
 
-    def get_resource_name(self):
-        return self.resource
+    @args.setter
+    def args(self, args):
+        self.__args = args
 
-    def get_operation_name(self):
-        return self.operation
+    @property
+    def action(self):
+        return self.__action
+
+    @action.setter
+    def action(self, action):
+        self.__action = action
+
+    @property
+    def url(self):
+        return self.__url
+
+    @url.setter
+    def url(self, url):
+        self.__url = url
+
 
     def create_request(self):
         '''

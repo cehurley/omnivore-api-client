@@ -7,50 +7,56 @@ import json
 
 class Omnivore(object):
     '''Main client class for Omnivore API'''
-    def __init__(self):
+    def __init__(self, api_key):
         self.version            = '0.1'
         self.request_container  = http.RequestContainer()
-        self.request_sender     = http.RequestSender(api_key='[YOUR API KEY]')
+        self.request_sender     = http.RequestSender(api_key=api_key)
         self.resource_provider  = resources.ResourcesProvider(self.version)
-        self.operation_provider = operations.OperationsProvider(self._set_operation)
+        self.operation_provider = operations.OperationsProvider(self._begin_request)
         self.base_url           = 'https://api.omnivore.io'
 
     def __getattr__(self, attr):
-        self.request_container.set_resource(attr)
+        self.request_container.resource = attr
         return self.operation_provider
 
-    def _set_operation(self, op, args):
+    def _begin_request(self, op, args):
         '''callback for operations provider'''
-        self.request_container.set_operation(op, args)
-        resource  = self.request_container.get_resource_name()
-        operation = self.request_container.get_operation_name()
+        self.request_container.operation = op
+        self.request_container.args = args
+        resource  = self.request_container.resource
+        operation = self.request_container.operation
         request   = self.resource_provider.get_path(resource, operation)
         self.request_container.action = request.action
 
         # Builds complete URL -> base_url/version/path
         url = "/".join([self.base_url, self.version, request.url])
-        self.request_container.set_url(url)
+        self.request_container.url = url
 
         # If request container cant build the request, we abort
         if self.request_container.create_request():
             return self._send_request()
-        else:
-            return None
 
     def _send_request(self):
         '''injects request sender into request container
            and attempts the request
         '''
         response = self.request_container.send(self.request_sender)
-        return [response[0], response[1]]
+        return {'status': response[0], 'body': response[1]}
 
 
 
 
 
 if __name__=='__main__':
-    c = Omnivore()
-    print c.locations.list()
-    print c.locations.getOne(location_id='Mi8y7jcL')
-    print c.tickets.list(location_id='Mi8y7jcL')
+    c = Omnivore('')
+    data= {
+          "employee": "MjikgioG",
+          "order_type": "KxiAaip5",
+          "revenue_center": "gdTMpTKz",
+
+        }
+    print c.tickets.create(location_id='Mi8y7jcL', data=data)
+    #print c.locations.list()
+    #print c.locations.getOne(location_id='Mi8y7jcL')
+    #print c.tickets.list(location_id='Mi8y7jcL')
     #c.locations.create(data={'asdasdasd': 'asdadasd'})
