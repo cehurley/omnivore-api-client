@@ -10,7 +10,7 @@ class Omnivore(object):
     def __init__(self):
         self.version            = '0.1'
         self.request_container  = http.RequestContainer()
-        self.request_sender     = http.RequestSender(api_key='001f725c272449109a24bcb762e56a6f')
+        self.request_sender     = http.RequestSender(api_key='')
         self.resource_provider  = resources.ResourcesProvider(self.version)
         self.operation_provider = operations.OperationsProvider(self._set_operation)
         self.base_url           = 'https://api.omnivore.io'
