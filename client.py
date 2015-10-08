@@ -2,7 +2,7 @@
 import http
 import operations
 import resources
-
+import json
 
 
 class Omnivore(object):
@@ -10,7 +10,7 @@ class Omnivore(object):
     def __init__(self):
         self.version            = '0.1'
         self.request_container  = http.RequestContainer()
-        self.request_sender     = http.RequestSender(api_key='')
+        self.request_sender     = http.RequestSender(api_key='[YOUR API KEY]')
         self.resource_provider  = resources.ResourcesProvider(self.version)
         self.operation_provider = operations.OperationsProvider(self._set_operation)
         self.base_url           = 'https://api.omnivore.io'
@@ -25,10 +25,10 @@ class Omnivore(object):
         resource  = self.request_container.get_resource_name()
         operation = self.request_container.get_operation_name()
         request   = self.resource_provider.get_path(resource, operation)
-        self.request_container.set_action(request.get_action())
+        self.request_container.action = request.action
 
         # Builds complete URL -> base_url/version/path
-        url = "/".join([self.base_url, self.version, request.get_url()])
+        url = "/".join([self.base_url, self.version, request.url])
         self.request_container.set_url(url)
 
         # If request container cant build the request, we abort
@@ -42,7 +42,7 @@ class Omnivore(object):
            and attempts the request
         '''
         response = self.request_container.send(self.request_sender)
-        return response
+        return [response[0], response[1]]
 
 
 

@@ -1,5 +1,6 @@
 __author__ = 'churley'
 import requests
+import json
 
 class Headers(object):
     @classmethod
@@ -16,7 +17,7 @@ class Headers(object):
 class RequestSender(object):
     def __init__(self, api_key=''):
         self.api_key = api_key
-    def send(self, url, action, payload):
+    def send(self, url, action, payload, resource, operation):
         '''
         sends the HTTP request
         :param url: complete url with https://, etc.
@@ -24,8 +25,22 @@ class RequestSender(object):
         :param payload: post data in json format
         :return: http response code, response text
         '''
-        try:
+        if action == 'get':
             response = requests.get(url, headers=Headers.prep_headers(self.api_key))
-        except:
-            return []
-        return [response.status_code, response.text]
+
+        data = json.loads(response.text)
+        #removing HAL data for now
+        if operation == 'list':
+            data = data['_embedded'][resource]
+            for r in data:
+                if '_embedded' in r:
+                    del r['_embedded']
+                if '_links' in r:
+                    del r['_links']
+        elif operation == 'getOne':
+            if '_embedded' in data:
+                del data['_embedded']
+            if '_links' in data:
+                del data['_links']
+
+        return [response.status_code, data]

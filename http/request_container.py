@@ -53,5 +53,6 @@ class RequestContainer(object):
         :param sender: object of type RequestSender
         :return: the raw API response
         '''
-        return sender.send(self.url, self.action, self.payload)
+        return sender.send(self.url, self.action, self.payload,
+                           self.resource, self.operation)
 
