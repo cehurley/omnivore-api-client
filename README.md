@@ -1,2 +1,2 @@
 # omnivore-api-client
-python client for Omnivore API
+A Python API client for Omnivore
