@@ -7,7 +7,7 @@ resources = {
 		    'list': {'url':'locations', 'action':'get'},
 		    'getOne': {'url':'locations/%(location_id)s', 'action':'get'}
 		    },
-		   'tickets':{
+          'tickets':{
 		    'list'  : {'url':'locations/%(location_id)s/tickets', 'action':'get'},
 		    'getOne': {'url':'locations/%(location_id)s/tickets/%(ticket_id)s', 'action':'get'},
                     'create': {'url':'locations/%(location_id)s/tickets', 'action':'post'},
