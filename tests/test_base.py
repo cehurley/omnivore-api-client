@@ -13,7 +13,7 @@ from config import api_key
 
 
 def get_omnivore_client():
-    client = Omnivore(api_key)
+    client = Omnivore()
     return client
 
 get_omivore_client = get_omnivore_client()

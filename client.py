@@ -3,11 +3,13 @@ import http
 import operations
 import resources
 import json
+import config
 
 
 class Omnivore(object):
     '''Main client class for Omnivore API'''
-    def __init__(self, api_key):
+    def __init__(self):
+        api_key = config.api_key
         self.version            = '0.1'
         self.request_container  = http.RequestContainer()
         self.request_sender     = http.RequestSender(api_key=api_key)
@@ -44,18 +46,6 @@ class Omnivore(object):
         return {'status': response[0], 'body': response[1]}
 
 
-
-
-
 if __name__=='__main__':
-    c = Omnivore('001f725c272449109a24bcb762e56a6f')
-    #data= {
-    #      "employee": "MjikgioG",
-    #      "order_type": "KxiAaip5",
-    #      "revenue_center": "gdTMpTKz",
-    #    }
-    #print c.tickets.create(location_id='Mi8y7jcL', data=data)
-    print c.locations.list()
-    #print c.locations.getOne(location_id='Mi8y7jcL')
-    #print c.tickets.list(location_id='Mi8y7jcL')
-    #c.locations.create(data={'asdasdasd': 'asdadasd'})
+    c = Omnivore()
+
