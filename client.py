@@ -48,15 +48,14 @@ class Omnivore(object):
 
 
 if __name__=='__main__':
-    c = Omnivore('')
-    data= {
-          "employee": "MjikgioG",
-          "order_type": "KxiAaip5",
-          "revenue_center": "gdTMpTKz",
-
-        }
-    print c.tickets.create(location_id='Mi8y7jcL', data=data)
-    #print c.locations.list()
+    c = Omnivore('001f725c272449109a24bcb762e56a6f')
+    #data= {
+    #      "employee": "MjikgioG",
+    #      "order_type": "KxiAaip5",
+    #      "revenue_center": "gdTMpTKz",
+    #    }
+    #print c.tickets.create(location_id='Mi8y7jcL', data=data)
+    print c.locations.list()
     #print c.locations.getOne(location_id='Mi8y7jcL')
     #print c.tickets.list(location_id='Mi8y7jcL')
     #c.locations.create(data={'asdasdasd': 'asdadasd'})
